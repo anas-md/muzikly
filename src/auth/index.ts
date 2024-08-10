@@ -35,8 +35,7 @@ class Auth {
       cookies().set(this.session_cookie_name, session._id, {
         httpOnly: true,
         expires: Date.now() + expiresIn,
-        secure:
-          (getEnvVariable('NODE_ENV') || process.env.NODE_ENV) === 'production',
+        secure: getEnvVariable('NODE_ENV') === 'production',
       });
       return { success: 'Session created successfully', data: session };
     } catch (error) {

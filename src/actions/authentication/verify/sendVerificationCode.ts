@@ -22,12 +22,12 @@ export default async function sendVerificationCode() {
       port: 465,
       secure: true,
       auth: {
-        user: getEnvVariable('EMAIL') || process.env.EMAIL,
-        pass: getEnvVariable('EMAIL_PASSWORD') || process.env.EMAIL_PASSWORD,
+        user: getEnvVariable('EMAIL'),
+        pass: getEnvVariable('EMAIL_PASSWORD'),
       },
     });
     await transporter.sendMail({
-      from: `Muzikly <${getEnvVariable('EMAIL') || process.env.EMAIL}>`,
+      from: `Muzikly <${getEnvVariable('EMAIL')}>`,
       to: res.email,
       subject: 'Muzikly Verification Code',
       html: getHtml(code),
