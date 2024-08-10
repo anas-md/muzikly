@@ -8,7 +8,6 @@ export default async function dbconnect() {
     await mongoose.connect(getEnvVariable('MONGODB_URI') as string);
     return { success: 'MongoDB connected' };
   } catch (error) {
-    console.error('MongoDB connection error:', error);
     return { error: 'Could not connect to MongoDB' };
   }
 }
