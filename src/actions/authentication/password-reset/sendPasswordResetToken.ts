@@ -21,7 +21,9 @@ export default async function sendPasswordResetToken(email: string) {
     }
     const token = crypto.randomBytes(64).toString('hex');
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host: 'smtp.hostinger.com',
+      port: 465,
+      secure: true,
       auth: {
         user: process.env.EMAIL,
         pass: process.env.EMAIL_PASSWORD,
