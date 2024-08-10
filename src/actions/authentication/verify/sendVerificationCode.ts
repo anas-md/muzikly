@@ -4,7 +4,6 @@ import User from '@/db/models/user.model';
 import nodemailer from 'nodemailer';
 import auth from '@/auth/auth';
 import { redirect } from 'next/navigation';
-import getEnvVariable from '@/helpers/getEnvVariable';
 
 export default async function sendVerificationCode() {
   const res = await auth.getCurrentUser();
@@ -22,12 +21,12 @@ export default async function sendVerificationCode() {
       port: 465,
       secure: true,
       auth: {
-        user: getEnvVariable('EMAIL'),
-        pass: getEnvVariable('EMAIL_PASSWORD'),
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASSWORD,
       },
     });
     await transporter.sendMail({
-      from: `Muzikly <${getEnvVariable('EMAIL')}>`,
+      from: `Muzikly <${process.env.EMAIL}>`,
       to: res.email,
       subject: 'Muzikly Verification Code',
       html: getHtml(code),

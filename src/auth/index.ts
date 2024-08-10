@@ -2,7 +2,6 @@ import { isValidObjectId } from 'mongoose';
 import { cookies } from 'next/headers';
 import { validate } from 'uuid';
 import Session from './session.model';
-import getEnvVariable from '@/helpers/getEnvVariable';
 
 interface IAuthConstructor {
   dbconnect: () => Promise<any>;
@@ -35,7 +34,7 @@ class Auth {
       cookies().set(this.session_cookie_name, session._id, {
         httpOnly: true,
         expires: Date.now() + expiresIn,
-        secure: getEnvVariable('NODE_ENV') === 'production',
+        secure: process.env.NODE_ENV === 'production',
       });
       return { success: 'Session created successfully', data: session };
     } catch (error) {
