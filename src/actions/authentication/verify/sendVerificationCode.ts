@@ -1,47 +1,51 @@
-'use server'
+'use server';
 
-import User from '@/db/models/user.model'
-import nodemailer from 'nodemailer'
-import auth from '@/auth/auth'
-import { redirect } from 'next/navigation'
+import User from '@/db/models/user.model';
+import nodemailer from 'nodemailer';
+import auth from '@/auth/auth';
+import { redirect } from 'next/navigation';
+import getEnvVariable from '@/helpers/getEnvVariable';
 
 export default async function sendVerificationCode() {
-    const res = await auth.getCurrentUser()
-    if (res.error) redirect('/login')
+  const res = await auth.getCurrentUser();
+  if (res.error) redirect('/login');
 
-    try {
-        if (res.verificationCode.expiresAt > Date.now()) {
-            return {
-                error: res.verificationCode.expiresAt,
-            }
-        }
-        const code = Math.floor(Math.random() * 700000 + 200000)
-        const transporter = nodemailer.createTransport({
-            host: 'smtp.hostinger.com',
-            port: 465,
-            secure: true,
-            auth: {
-                user: process.env.EMAIL,
-                pass: process.env.EMAIL_PASSWORD,
-            },
-        })
-        await transporter.sendMail({
-            from: `Muzikly <${process.env.EMAIL}>`,
-            to: res.email,
-            subject: 'Muzikly Verification Code',
-            html: getHtml(code),
-        })
-        const expiresAt = Date.now() + 1000 * 60 * 2
-        await User.findOneAndUpdate({ email: res.email }, { verificationCode: { value: code, expiresAt } })
-        return { success: expiresAt }
-    } catch (error) {
-        console.log(error)
-        return { error: 'Something went wrong' }
+  try {
+    if (res.verificationCode.expiresAt > Date.now()) {
+      return {
+        error: res.verificationCode.expiresAt,
+      };
     }
+    const code = Math.floor(Math.random() * 700000 + 200000);
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.hostinger.com',
+      port: 465,
+      secure: true,
+      auth: {
+        user: getEnvVariable('EMAIL') || process.env.EMAIL,
+        pass: getEnvVariable('EMAIL_PASSWORD') || process.env.EMAIL_PASSWORD,
+      },
+    });
+    await transporter.sendMail({
+      from: `Muzikly <${getEnvVariable('EMAIL') || process.env.EMAIL}>`,
+      to: res.email,
+      subject: 'Muzikly Verification Code',
+      html: getHtml(code),
+    });
+    const expiresAt = Date.now() + 1000 * 60 * 2;
+    await User.findOneAndUpdate(
+      { email: res.email },
+      { verificationCode: { value: code, expiresAt } }
+    );
+    return { success: expiresAt };
+  } catch (error) {
+    console.log(error);
+    return { error: 'Something went wrong' };
+  }
 }
 
 function getHtml(code: number) {
-    return `
+  return `
 <div style="width: 100%; height: 100%; display: flex; align-items: center">
     <div style="max-width: 600px; margin: 0 auto; padding: 50px; background-color: #fff; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1)">
         <div style="padding: 20px; background-color: #f9f9f9; border-radius: 8px">
@@ -53,5 +57,5 @@ function getHtml(code: number) {
         </div>
     </div>
 </div>
-`
+`;
 }

@@ -5,6 +5,7 @@ import User from '@/db/models/user.model';
 import nodemailer from 'nodemailer';
 import crypto from 'crypto';
 import { z } from 'zod';
+import getEnvVariable from '@/helpers/getEnvVariable';
 
 export default async function sendPasswordResetToken(email: string) {
   const db = await dbconnect();
@@ -23,12 +24,12 @@ export default async function sendPasswordResetToken(email: string) {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: process.env.EMAIL,
-        pass: process.env.EMAIL_PASSWORD,
+        user: getEnvVariable('EMAIL') || process.env.EMAIL,
+        pass: getEnvVariable('EMAIL_PASSWORD') || process.env.EMAIL_PASSWORD,
       },
     });
     await transporter.sendMail({
-      from: `Muzikly <${process.env.EMAIL}>`,
+      from: `Muzikly <${getEnvVariable('EMAIL') || process.env.EMAIL}>`,
       to: email,
       subject: 'Muzikly Verification Code',
       html: getHtml(token),
@@ -50,7 +51,7 @@ function getHtml(token: string) {
     <div style="max-width: 28rem; padding: 1.25rem; border-radius: 0.375rem; background-color: #f9fafb; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05)">
         <span style="color: black">You recently requested to reset your password for your Muzikly account. <strong>This password reset is only valid for the next 5 minutes.</strong></span>
         <div style="display: flex; margin: 30px 0px">
-            <a href="${process.env.HOST_URI}/forgot-password/${token}" style="border-radius: 0.25rem; background-color: #6366f1; color: #ffffff; padding: 0.5rem 1rem; text-decoration: none; display: inline-block; margin: 0 auto">Reset Your Password</a>
+        <a href="${getEnvVariable('HOST_URI') || process.env.HOST_URI}/forgot-password/${token}" style="border-radius: 0.25rem; background-color: #6366f1; color: #ffffff; padding: 0.5rem 1rem; text-decoration: none; display: inline-block; margin: 0 auto">Reset Your Password</a>
         </div>
         <span style="font-size: 0.875rem; color: black">If you did not request a password reset, please ignore this email</span>
     </div>
