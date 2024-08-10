@@ -67,7 +67,7 @@ export default function Page() {
           alt="Muzikly Logo"
           className="mx-auto justify-center"
           width={100}
-          height={24}
+          height={100}
           priority
         />
         <p className="text-center text-sm italic mx-10 dark:text-white">
