@@ -12,7 +12,7 @@ import {
   FormMessage,
 } from '@/components/shadcn/ui/form';
 import { Input } from '@/components/shadcn/ui/input';
-import loginScema from '@/schemas/login';
+import loginSchema from '@/schemas/login';
 import userStore from '@/store/user.store';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
@@ -26,15 +26,15 @@ export default function Page() {
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState(false);
 
-  const form = useForm<z.infer<typeof loginScema>>({
-    resolver: zodResolver(loginScema),
+  const form = useForm<z.infer<typeof loginSchema>>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: '',
       password: '',
     },
   });
 
-  async function handleSubmit(values: z.infer<typeof loginScema>) {
+  async function handleSubmit(values: z.infer<typeof loginSchema>) {
     setError('');
     setLoading(true);
     const res = await Login(values);
