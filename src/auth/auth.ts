@@ -1,8 +1,8 @@
-import Auth from '@/auth'
-import dbconnect from '@/db/dbconnect'
+import Auth from '@/auth';
+import dbconnect from '@/db/dbconnect';
 
 const auth = new Auth({
-    dbconnect: dbconnect,
-})
+  dbconnect: dbconnect,
+});
 
-export default auth
+export default auth;
