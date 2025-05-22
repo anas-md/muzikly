@@ -155,6 +155,12 @@ export default function Page() {
         >
           Already have an account?
         </Link>
+        <Link
+          href="/landing"
+          className="mx-auto block w-fit text-sm font-medium text-blue-500 hover:underline dark:text-blue-400"
+        >
+          Return to homepage
+        </Link>
       </div>
     </div>
   );

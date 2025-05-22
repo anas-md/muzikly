@@ -11,13 +11,13 @@ export default function TopNavigation() {
   return (
     <div className="flex items-center justify-between gap-3 px-2 sm:px-5">
       <Searchbar />
-      <Link
+      {/* <Link
         className="hidden sm:block"
         href="https://github.com/anas-md/muzikly"
         target="_blank"
       >
         <FaGithub className="text-3xl" />
-      </Link>
+      </Link> */}
       <div
         onClick={() => userStore.toggleTheme()}
         className="hidden aspect-square size-8 cursor-pointer select-none items-center justify-center rounded-full bg-black/5 text-2xl hover:bg-black/10 dark:bg-white/20 dark:hover:bg-white/30 sm:flex"

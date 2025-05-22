@@ -13,7 +13,7 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   const links = [
-    { name: 'Discover', href: '/', icon: <GoHome /> },
+    { name: 'Discover', href: '/dashboard', icon: <GoHome /> },
     { name: 'My Playlists', href: '/myplaylists', icon: <BiAlbum /> },
     { name: 'Favourites', href: '/favourites', icon: <BiHeart /> },
   ];
@@ -43,9 +43,9 @@ export default function Sidebar() {
         ))}
       </div>
       <div className="mt-auto flex flex-col items-center gap-2 px-0.5 sm:hidden">
-        <Link href="https://github.com/anas-md/muzikly" target="_blank">
+        {/* <Link href="https://github.com/anas-md/muzikly" target="_blank">
           <FaGithub className="text-3xl" />
-        </Link>
+        </Link> */}
         <div
           onClick={() => userStore.toggleTheme()}
           className="flex aspect-square w-full cursor-pointer select-none items-center justify-center rounded-full bg-black/5 text-2xl hover:bg-black/10 dark:bg-white/20 dark:hover:bg-white/30"

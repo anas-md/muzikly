@@ -21,8 +21,10 @@ import { useForm } from 'react-hook-form';
 import { IoAlertCircleOutline } from 'react-icons/io5';
 import { MdNightsStay, MdOutlineLightMode } from 'react-icons/md';
 import { z } from 'zod';
+import { useRouter } from 'next/navigation';
 
 export default function Page() {
+  const router = useRouter();
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState(false);
 
@@ -44,7 +46,7 @@ export default function Page() {
       return;
     }
     setError('');
-    window.location.href = '/';
+    router.push('/dashboard');
   }
 
   return (
@@ -153,6 +155,12 @@ export default function Page() {
           className="mx-auto block w-fit text-sm font-medium text-blue-500 hover:underline dark:text-blue-400"
         >
           Don&apos;t have an account?
+        </Link>
+        <Link
+          href="/landing"
+          className="mx-auto block w-fit text-sm font-medium text-blue-500 hover:underline dark:text-blue-400"
+        >
+          Return to homepage
         </Link>
       </div>
     </div>

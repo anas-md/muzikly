@@ -3,10 +3,21 @@ import createDownloadLinks from './download_links'
 import createImageLinks from './image_links'
 import { createArtistMap } from './format.artist'
 
+const decodeHtmlEntities = (text: string) => {
+    if (typeof text !== 'string') {
+        return text
+    }
+    return text.replace(/&amp;/g, '&')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&quot;/g, '"')
+        .replace(/&#039;/g, "'");
+}
+
 export const formatSong = (song: any) =>
     ({
         id: song.id,
-        name: song.title,
+        name: decodeHtmlEntities(song.title),
         type: song.type,
         year: Number(song.year || 0),
         releaseDate: song.more_info?.release_date,
